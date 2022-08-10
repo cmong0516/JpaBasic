@@ -62,9 +62,18 @@ public class JpaMain {
 //            for (Member member : result) {
 //                System.out.println("member.getName() = " + member.getName());
 //            }
-            // 회원 삭제
-            Member findMember = em.find(Member.class, 2L);
-            em.remove(findMember);
+//            // 회원 삭제
+//            Member findMember = em.find(Member.class, 2L);
+//            em.remove(findMember);
+
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("C");
+            member.setRoleType(RoleType.GUEST);
+
+
+
+            em.persist(member);
 
 
             tx.commit();
@@ -86,4 +95,14 @@ public class JpaMain {
 // 1. 트랜잭션 tx = em.getTransaction();
 // 2. 시작 tx.begin();
 // 3. 끝  tx.commit();
-// JPA 영속성의 장점으로는 지연을 통해 최적화 여지를 둘수있다. 1차 캐시에 저장해놓고 이를 commit (flush) 할때 DB에 쿼리를 만들어 보내기 때문.
+// JPA 영속성의 장점으로는 지연을 통해 최적화 여지를 둘수있다. 1차 캐시(영속성 컨텍스트)에 저장해놓고 이를 commit (flush) 할때 DB에 쿼리를 만들어 보내기 때문.
+
+// flush 하는방법
+// 1. em.flush
+// 2. tx.commit
+// 3. JPQL 쿼리실
+
+// 준영속 상태로 만드는법
+// 1. em.detach
+// 2. em.clear()  -> 영속성컨텍스트를 비움.
+// 3. em.close    -> 영속성컨텍스트를 종료.
