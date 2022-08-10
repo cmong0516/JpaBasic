@@ -32,9 +32,11 @@ public class JpaMain {
         try {
 
             // 회원 저장
+            // *객체 생성    (비영속)
 //            Member member = new Member();
 //            member.setId(2L);
 //            member.setName("HelloB");
+            // *em.persist 로 영속상태로 만듬
 //            em.persist(member);
             // 회원 찾기
 //            Member findMember = em.find(Member.class, 1L);
@@ -51,15 +53,18 @@ public class JpaMain {
 
             // 전체 조회 (JPQL)
             // JPQL 은 엔티티 객체를 대상으로 쿼리, SQL 은 테이블 대상으로 쿼리
-            List<Member> result = em.createQuery("select m from Member m", Member.class)
-                    // 페이징 처리도 가능.
-//                    .setFirstResult(0)
-//                    .setMaxResults(2)
-                    .getResultList();
-
-            for (Member member : result) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+//            List<Member> result = em.createQuery("select m from Member m", Member.class)
+//                    // 페이징 처리도 가능.
+////                    .setFirstResult(0)
+////                    .setMaxResults(2)
+//                    .getResultList();
+//
+//            for (Member member : result) {
+//                System.out.println("member.getName() = " + member.getName());
+//            }
+            // 회원 삭제
+            Member findMember = em.find(Member.class, 2L);
+            em.remove(findMember);
 
 
             tx.commit();
@@ -81,3 +86,4 @@ public class JpaMain {
 // 1. 트랜잭션 tx = em.getTransaction();
 // 2. 시작 tx.begin();
 // 3. 끝  tx.commit();
+// JPA 영속성의 장점으로는 지연을 통해 최적화 여지를 둘수있다. 1차 캐시에 저장해놓고 이를 commit (flush) 할때 DB에 쿼리를 만들어 보내기 때문.
