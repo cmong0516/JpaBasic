@@ -7,6 +7,14 @@ import java.util.Date;
 public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue    :    자동생성.
+    // 기본값 AUTO
+    // IDENTITY 데이터베이스 위임 (MySQL AI)
+    // SEQUENCE 데이터베이스 시퀀스 오브젝트 사용
+    // SequenceGenerator 로 추가설정
+    // TABLE 키 생성 전용 테이블을 생성하여 시퀀시 기능을함. 장점 : 범용성, 단점 : 성능.
+    // TableGenerator
     private Long id;
 
     @Column(name = "name", nullable = false)

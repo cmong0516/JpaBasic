@@ -67,13 +67,16 @@ public class JpaMain {
 //            em.remove(findMember);
 
             Member member = new Member();
-            member.setId(3L);
+//            member.setId(3L);
+            // @GeneratedValue
             member.setUsername("C");
             member.setRoleType(RoleType.GUEST);
 
 
 
             em.persist(member);
+            // GeneratedValue 를 사용하여 id 값을 MySQL 에서 AI 로 두었고 값 설정을 따로 하지 않았는데
+            // IDENTITY 를 사용하여 DB에 값이 들어갈때 id 값이 생성되므로 INSERT 쿼리를 persist 할때 보낸다.
 
 
             tx.commit();
