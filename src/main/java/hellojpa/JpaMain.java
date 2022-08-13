@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -77,20 +78,29 @@ public class JpaMain {
             // GeneratedValue 를 사용하여 id 값을 MySQL 에서 AI 로 두었고 값 설정을 따로 하지 않았는데
             // IDENTITY 를 사용하여 DB에 값이 들어갈때 id 값이 생성되므로 INSERT 쿼리를 persist 할때 보낸다.
 
-            Movie movie = new Movie();
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("바람과 함께 사라지다");
-            movie.setPrice(10000);
+//            Movie movie = new Movie();
+//            movie.setDirector("aaaa");
+//            movie.setActor("bbbb");
+//            movie.setName("바람과 함께 사라지다");
+//            movie.setPrice(10000);
+//
+//            em.persist(movie);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Movie findMovie = em.find(Movie.class, movie.getId());
+//            System.out.println("findMovie = " + findMovie.getName());
+            Member member = new Member();
 
-            em.persist(movie);
+            member.setUsername("user1");
+            member.setCreateBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
+
+            em.persist(member);
 
             em.flush();
             em.clear();
-
-            Movie findMovie = em.find(Movie.class, movie.getId());
-            System.out.println("findMovie = " + findMovie.getName());
-
 
             tx.commit();
         } catch (Exception e) {

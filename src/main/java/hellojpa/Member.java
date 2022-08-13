@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +25,11 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date createDate;
+//
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date lastModifiedDate;
 
     @Lob
     private String description;
@@ -37,13 +37,11 @@ public class Member {
     public Member() {
     }
 
-    public Member(Long id, String username, Integer age, RoleType roleType, Date createDate, Date lastModifiedDate, String description) {
+    public Member(Long id, String username, Integer age, RoleType roleType, String description) {
         this.id = id;
         this.username = username;
         this.age = age;
         this.roleType = roleType;
-        this.createDate = createDate;
-        this.lastModifiedDate = lastModifiedDate;
         this.description = description;
     }
 
@@ -77,22 +75,6 @@ public class Member {
 
     public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public String getDescription() {
