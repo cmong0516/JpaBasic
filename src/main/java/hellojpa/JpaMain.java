@@ -1,9 +1,6 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 public class JpaMain {
@@ -91,16 +88,30 @@ public class JpaMain {
 //
 //            Movie findMovie = em.find(Movie.class, movie.getId());
 //            System.out.println("findMovie = " + findMovie.getName());
-            Member member = new Member();
+//            Member member = new Member();
+//
+//            member.setUsername("user1");
+//            member.setCreateBy("kim");
+//            member.setCreatedDate(LocalDateTime.now());
+//
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            member.setUsername("user1");
-            member.setCreateBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            em.persist(member);
+//            em.persist(parent);
+//            em.persist(child1);
+//            em.persist(child2);
 
-            em.flush();
-            em.clear();
+//            @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
+            em.persist(parent);
+            // child 가 같이 insert 쿼리가 나간다.
 
             tx.commit();
         } catch (Exception e) {
