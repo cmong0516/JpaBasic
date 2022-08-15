@@ -113,6 +113,18 @@ public class JpaMain {
             em.persist(parent);
             // child 가 같이 insert 쿼리가 나간다.
 
+            em.flush();
+            em.clear();
+
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
+//            Hibernate:
+//            /* delete hellojpa.Child */ delete
+//                    from
+//            Child
+//                    where
+//            id=?
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
