@@ -2,6 +2,7 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -125,24 +126,57 @@ public class JpaMain {
 //                    where
 //            id=?
 
-            Address address = new Address("city", "street", "10000");
-
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeaddress(address);
-            em.persist(member1);
-
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setHomeaddress(address);
-            em.persist(member2);
-
-            member1.getHomeaddress().setCity("newCity");
-
-            // member1 의 address 를 가져와서 city 값을 변경했는데 member2 의 값도 변경되었다.
-            // 해결법
-            Address address1 = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+//            Address address = new Address("city", "street", "10000");
+//
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            member1.setHomeAddress(address);
+//            em.persist(member1);
+//
+//            Member member2 = new Member();
+//            member2.setUsername("member2");
+//            member2.setHomeAddress(address);
+//            em.persist(member2);
+//
+////            member1.getHomeaddress().setCity("newCity");
+////            // 이거 자체가 불가능해짐.
+//
+//            // member1 의 address 를 가져와서 city 값을 변경했는데 member2 의 값도 변경되었다.
+//            // 해결법
+//            Address address1 = new Address(address.getCity(), address.getStreet(), address.getZipcode());
             // 새로운 address 를 만들어서 객체별로 다른 address 를 넣어주어야한다.
+        // 기본 타입은 값을 복사하지만 객체는 참조를 전달하기 때문에 이런 문제가 발생.
+            // 이를 해결하려면 객체를 생성자로만 값을 설정하고 수정자 (Setter) 를 만들지 않는 불변객체로 만들어야한다.
+            // 값타입 비교는 == , 동등성 비교는 equals
+
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("city","street","10000"));
+
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("고기");
+
+            member.getAddressHistory().add(new Address("city1", "street1", "10001"));
+            member.getAddressHistory().add(new Address("city2", "street2", "10002"));
+
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+            System.out.println("============================================");
+            Member findMember = em.find(Member.class, member.getId());
+            // member 에 대한 select 문만 보낸다.
+            // 콜렉션은 지연로딩임 .
+
+            List<Address> addressHistory = findMember.getAddressHistory();
+
+            for (Address address : addressHistory) {
+                System.out.println("address = " + address.getCity());
+            }
+
+            // 지연로딩임을 확인하기 위한 출력.
+            // 출력문이 실행되면서 address 를 조회한다.
 
             tx.commit();
         } catch (Exception e) {
@@ -174,3 +208,8 @@ public class JpaMain {
 // 1. em.detach
 // 2. em.clear()  -> 영속성컨텍스트를 비움.
 // 3. em.close    -> 영속성컨텍스트를 종료.
+
+// 컬렉션 Set List Map 을 저장하는법
+// @ElementCollection , @CollectionTable 을 사용
+// DB 에는 컬렉션을 같은 테이블에 저장할수 없다.
+// 다대일 관계로 따로 테이블을 저장.
