@@ -1,10 +1,11 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Member extends BaseEntity{
+public class Member{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +21,10 @@ public class Member extends BaseEntity{
     @Column(name = "name", nullable = false)
     private String username;
 
-    private Integer age;
-    // ORDINAL 을 사용하면 ENUM 값의 순서가 변경되었을때 원치 않는 방향으로 저장된다. 주의해야함!!
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+//    private Integer age;
+//    // ORDINAL 을 사용하면 ENUM 값의 순서가 변경되었을때 원치 않는 방향으로 저장된다. 주의해야함!!
+//    @Enumerated(EnumType.STRING)
+//    private RoleType roleType;
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private Date createDate;
@@ -31,18 +32,24 @@ public class Member extends BaseEntity{
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private Date lastModifiedDate;
 
-    @Lob
-    private String description;
+//    private LocalDateTime startDate;
+//    private LocalDateTime endDate;
+
+    @Embedded
+    private Period workPeriod;
+
+    @Embedded
+    private Address homeaddress;
+
+//    private String city;
+//    private String street;
+//    private String zipcode;
+
+
+//    @Lob
+//    private String description;
 
     public Member() {
-    }
-
-    public Member(Long id, String username, Integer age, RoleType roleType, String description) {
-        this.id = id;
-        this.username = username;
-        this.age = age;
-        this.roleType = roleType;
-        this.description = description;
     }
 
     public Long getId() {
@@ -61,27 +68,19 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
-    public Integer getAge() {
-        return age;
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
+    public Address getHomeaddress() {
+        return homeaddress;
     }
 
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setHomeaddress(Address homeaddress) {
+        this.homeaddress = homeaddress;
     }
 }

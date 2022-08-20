@@ -98,32 +98,51 @@ public class JpaMain {
 //
 //            em.flush();
 //            em.clear();
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
+//            Child child1 = new Child();
+//            Child child2 = new Child();
+//
+//            Parent parent = new Parent();
+//            parent.addChild(child1);
+//            parent.addChild(child2);
+//
+////            em.persist(parent);
+////            em.persist(child1);
+////            em.persist(child2);
+//
+////            @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
 //            em.persist(parent);
-//            em.persist(child1);
-//            em.persist(child2);
-
-//            @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
-            em.persist(parent);
-            // child 가 같이 insert 쿼리가 나간다.
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
+//            // child 가 같이 insert 쿼리가 나간다.
+//
+//            em.flush();
+//            em.clear();
+//
+//            Parent findParent = em.find(Parent.class, parent.getId());
+//            findParent.getChildList().remove(0);
 //            Hibernate:
 //            /* delete hellojpa.Child */ delete
 //                    from
 //            Child
 //                    where
 //            id=?
+
+            Address address = new Address("city", "street", "10000");
+
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setHomeaddress(address);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setHomeaddress(address);
+            em.persist(member2);
+
+            member1.getHomeaddress().setCity("newCity");
+
+            // member1 의 address 를 가져와서 city 값을 변경했는데 member2 의 값도 변경되었다.
+            // 해결법
+            Address address1 = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            // 새로운 address 를 만들어서 객체별로 다른 address 를 넣어주어야한다.
 
             tx.commit();
         } catch (Exception e) {
