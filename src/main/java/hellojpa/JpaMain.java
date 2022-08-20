@@ -157,8 +157,8 @@ public class JpaMain {
             member.getFavoriteFoods().add("치킨");
             member.getFavoriteFoods().add("고기");
 
-            member.getAddressHistory().add(new Address("city1", "street1", "10001"));
-            member.getAddressHistory().add(new Address("city2", "street2", "10002"));
+            member.getAddressHistory().add(new AddressEntity("city1", "street1", "10001"));
+            member.getAddressHistory().add(new AddressEntity("city2", "street2", "10002"));
 
             em.persist(member);
 
@@ -169,10 +169,10 @@ public class JpaMain {
             // member 에 대한 select 문만 보낸다.
             // 콜렉션은 지연로딩임 .
 
-            List<Address> addressHistory = findMember.getAddressHistory();
+            List<AddressEntity> addressHistory = findMember.getAddressHistory();
 
-            for (Address address : addressHistory) {
-                System.out.println("address = " + address.getCity());
+            for (AddressEntity address : addressHistory) {
+                System.out.println("address = " + address.getAddress().getCity());
             }
 
             // 지연로딩임을 확인하기 위한 출력.
